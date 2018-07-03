@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
 import org.springframework.stereotype.Service;
 
+import com.spring.restws.exceptions.PatientBusinessException;
 import com.spring.restws.model.Patient;
 
 @Service
@@ -16,7 +18,7 @@ public class PatientServiceImpl implements PatientService
 {
 
 	Map<Long,Patient> patients = new HashMap<>();
-	static Long id = 100L;
+	private Long id = 100L;
 	
 	public PatientServiceImpl()
 	{
@@ -33,7 +35,15 @@ public class PatientServiceImpl implements PatientService
 	@Override
 	public Patient getPatient(Long id) 
 	{
-		return patients.get(id);
+		if(patients.containsKey(id))
+		{
+			return patients.get(id);
+		}
+		else 
+		{
+			throw new WebApplicationException(Response.Status.NOT_FOUND);
+		}
+	
 	}
 	
 	@Override
@@ -55,7 +65,7 @@ public class PatientServiceImpl implements PatientService
 		}
 		else
 		{
-			response = Response.notModified().build();
+			throw new PatientBusinessException();
 		}
 		
 		return response;
