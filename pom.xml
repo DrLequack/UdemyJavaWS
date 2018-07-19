@@ -11,7 +11,7 @@
 
 
 	<name>restws</name>
-	<description>Ptient REST Services</description>
+	<description>Patient REST Services</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
